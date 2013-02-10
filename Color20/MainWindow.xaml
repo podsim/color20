@@ -9,12 +9,12 @@
         </Canvas>
         <TextBox Height="23" HorizontalAlignment="Left" Margin="42,105,0,0" Name="currentHexBox" VerticalAlignment="Top" Width="65" MaxLines="1" MaxLength="7" Text="#000000" PreviewKeyDown="currentHexBox_PreviewKeyDown" />
         <Label Content="Hex" Height="28" HorizontalAlignment="Left" Margin="12,103,0,0" Name="label1" VerticalAlignment="Top" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="132,105,0,0" Name="currentRBox" VerticalAlignment="Top" Width="28" Text="0" MaxLines="1" MaxLength="3" PreviewKeyDown="currentBox_PreviewKeyDown" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="132,105,0,0" Name="currentRBox" VerticalAlignment="Top" Width="28" Text="0" MaxLines="1" MaxLength="3" PreviewKeyDown="currentBox_PreviewKeyDown" TextChanged="currentBox_TextChanged" />
         <Label Content="R" Height="28" HorizontalAlignment="Left" Margin="115,103,0,0" Name="label2" VerticalAlignment="Top" />
         <Label Content="G" Height="28" HorizontalAlignment="Left" Margin="166,103,0,0" Name="label3" VerticalAlignment="Top" />
-        <TextBox Height="23" HorizontalAlignment="Right" Margin="0,105,74,0" Name="currentGBox" VerticalAlignment="Top" Width="28" Text="0" MaxLines="1" MaxLength="3" PreviewKeyDown="currentBox_PreviewKeyDown" />
+        <TextBox Height="23" HorizontalAlignment="Right" Margin="0,105,74,0" Name="currentGBox" VerticalAlignment="Top" Width="28" Text="0" MaxLines="1" MaxLength="3" PreviewKeyDown="currentBox_PreviewKeyDown" TextChanged="currentBox_TextChanged" />
         <Label Content="B" Height="28" HorizontalAlignment="Left" Margin="218,103,0,0" Name="label4" VerticalAlignment="Top" />
-        <TextBox Height="23" HorizontalAlignment="Left" Margin="235,105,0,0" Name="currentBBox" VerticalAlignment="Top" Width="28                 " Text="0" MaxLines="1" MaxLength="3" PreviewKeyDown="currentBox_PreviewKeyDown" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="235,105,0,0" Name="currentBBox" VerticalAlignment="Top" Width="28" Text="0" MaxLines="1" MaxLength="3" PreviewKeyDown="currentBox_PreviewKeyDown" TextChanged="currentBox_TextChanged" />
         <CheckBox Content="Always On Top" Height="16" HorizontalAlignment="Left" Margin="18,139,0,0" Name="alwaysOnTopCheckBox" VerticalAlignment="Top" />
         <CheckBox Content="Mouse Monitoring" Height="16" HorizontalAlignment="Left" Margin="138,139,0,0" Name="monitorMouseCheckBox" VerticalAlignment="Top" />
     </Grid>

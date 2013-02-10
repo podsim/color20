@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Globalization;
 using MColor = System.Windows.Media.Color;
 using DColor = System.Drawing.Color;
@@ -37,11 +29,11 @@ namespace Color20
         }
 
         private void Init()
-        {            
+        {
             var width = Convert.ToInt32(SystemParameters.PrimaryScreenWidth);
             var height = Convert.ToInt32(SystemParameters.PrimaryScreenHeight);
             _bmp = new System.Drawing.Bitmap(width, height);
-            _point = new System.Drawing.Point(0, 0);            
+            _point = new System.Drawing.Point(0, 0);
 
             //timer1.Enabled = false;
             //_monitorCheck = false;
@@ -73,7 +65,7 @@ namespace Color20
             var cursorX = Convert.ToInt32(p.X);
             var cursorY = Convert.ToInt32(p.Y);
             _color = _bmp.GetPixel(cursorX, cursorY);
-            
+
             UpdateColor(_color);
         }
 
@@ -100,11 +92,49 @@ namespace Color20
 
         private void UpdateColor()
         {
+            if (currentBBox == null || currentRBox == null || currentGBox == null)
+                return;
             var r = Convert.ToByte(currentRBox.Text);
             var g = Convert.ToByte(currentGBox.Text);
             var b = Convert.ToByte(currentBBox.Text);
 
             CurrentColor = MColor.FromRgb(r, g, b);
+        }
+
+        private static string ParseValue(string value)
+        {
+            int val;
+            int.TryParse(value, out val);
+            if (val >= 255)
+                val = 255;
+            if (val <= 0)
+                val = 0;
+            return val.ToString();
+        }
+
+        private static void ParseKey(Key key, TextBox tb)
+        {
+            if (key != Key.Up && key != Key.Down)
+                return;
+
+            int b;
+            int.TryParse(tb.Text, out b);
+
+            switch (key)
+            {
+                case Key.Up:
+                    {
+                        b++;
+                        tb.Text = ParseValue(b.ToString());
+                        break;
+                    }
+                case Key.Down:
+                    {
+                        b--;
+                        tb.Text = ParseValue(b.ToString());
+                        break;
+                    }
+            }
         }
 
         #endregion
@@ -115,7 +145,7 @@ namespace Color20
 
         private void currentBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            ParseKey(e.Key, sender as TextBox);        
+            ParseKey(e.Key, sender as TextBox);
         }
 
         private void currentHexBox_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -132,36 +162,11 @@ namespace Color20
 
         #endregion
 
-        private void ParseKey(Key key, TextBox tb)
+        private void currentBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (key != Key.Up && key != Key.Down)
-                return;
-
-            int b;
-            int.TryParse(tb.Text, out b);
-
-            switch (key)
-            {
-                case Key.Up:
-                    {
-                        if (b == 255)
-                            return;
-                        b++;
-                        tb.Text = b.ToString();
-                        UpdateColor();
-                        break;
-                    }
-                case Key.Down:
-                    {
-                        if (b == 0)
-                            return;
-                        b--;
-                        tb.Text = b.ToString();
-                        UpdateColor();
-                        break;
-                    }
-            }
+            var tb = (TextBox) sender;
+            tb.Text = ParseValue(tb.Text);
+            UpdateColor();
         }
-
     }
 }
