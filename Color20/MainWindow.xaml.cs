@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Globalization;
+using System.Windows.Threading;
 using MColor = System.Windows.Media.Color;
 using DColor = System.Drawing.Color;
 
@@ -17,27 +18,23 @@ namespace Color20
         #region Private Variables
 
         private System.Drawing.Point _point;
-        private System.Drawing.Bitmap _bmp;
-        private System.Drawing.Graphics _graphic;
         private System.Drawing.Color _color;
+        private DispatcherTimer _timer = new DispatcherTimer();
 
         #endregion
 
         public MainWindow()
         {
-            InitializeComponent();
-        }
+            InitializeComponent();            
+            _timer.IsEnabled = false;
 
-        private void Init()
+            _timer.Interval = TimeSpan.FromMilliseconds(10);
+            _timer.Tick += new EventHandler(_timer_Tick);
+        } 
+
+        void _timer_Tick(object sender, EventArgs e)
         {
-            var width = Convert.ToInt32(SystemParameters.PrimaryScreenWidth);
-            var height = Convert.ToInt32(SystemParameters.PrimaryScreenHeight);
-            _bmp = new System.Drawing.Bitmap(width, height);
-            _point = new System.Drawing.Point(0, 0);
-
-            //timer1.Enabled = false;
-            //_monitorCheck = false;
-            //notifyIcon1.Visible = false;
+            GetColorFromCursor();
         }
 
         private MColor CurrentColor
@@ -52,21 +49,33 @@ namespace Color20
             }
         }
 
+        private void GetColorFromCursor()
+        {
+            var width = Convert.ToInt32(SystemParameters.PrimaryScreenWidth);
+            var height = Convert.ToInt32(SystemParameters.PrimaryScreenHeight);
+            _point = new System.Drawing.Point(0, 0);
+
+            using (System.Drawing.Bitmap _bmp = new System.Drawing.Bitmap(width, height))
+            {
+                using (var _graphic = System.Drawing.Graphics.FromImage(_bmp))
+                {
+                    _graphic.CopyFromScreen(_point, _point, _bmp.Size);
+                }
+
+                var p = Win32.Win32Utils.CurrentMousePosition;
+                if (p.X < 0 || p.Y < 0)
+                    return;
+
+                var cursorX = Convert.ToInt32(p.X);
+                var cursorY = Convert.ToInt32(p.Y);
+                _color = _bmp.GetPixel(cursorX, cursorY);
+            }
+            UpdateColor(_color);
+        }
+
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            Init();
-            _graphic = System.Drawing.Graphics.FromImage(_bmp);
-            _graphic.CopyFromScreen(_point, _point, _bmp.Size);
-
-            var p = Win32.Win32Utils.CurrentMousePosition;
-            if (p.X < 0 || p.Y < 0)
-                return;
-
-            var cursorX = Convert.ToInt32(p.X);
-            var cursorY = Convert.ToInt32(p.Y);
-            _color = _bmp.GetPixel(cursorX, cursorY);
-
-            UpdateColor(_color);
+            GetColorFromCursor();
         }
 
         #region Methods
@@ -158,6 +167,28 @@ namespace Color20
 
                 UpdateColorFromHex(hex);
             }
+        }
+
+        private void alwaysOnTopCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            Topmost = true;
+        }
+
+        private void alwaysOnTopCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Topmost = false;
+        }
+        
+        private void monitorMouseCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            button1.IsEnabled = false;
+            _timer.IsEnabled = true;
+        }
+
+        private void monitorMouseCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            button1.IsEnabled = true;
+            _timer.IsEnabled = false;
         }
 
         #endregion

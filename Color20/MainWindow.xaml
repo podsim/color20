@@ -15,7 +15,7 @@
         <TextBox Height="23" HorizontalAlignment="Right" Margin="0,105,74,0" Name="currentGBox" VerticalAlignment="Top" Width="28" Text="0" MaxLines="1" MaxLength="3" PreviewKeyDown="currentBox_PreviewKeyDown" TextChanged="currentBox_TextChanged" />
         <Label Content="B" Height="28" HorizontalAlignment="Left" Margin="218,103,0,0" Name="label4" VerticalAlignment="Top" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="235,105,0,0" Name="currentBBox" VerticalAlignment="Top" Width="28" Text="0" MaxLines="1" MaxLength="3" PreviewKeyDown="currentBox_PreviewKeyDown" TextChanged="currentBox_TextChanged" />
-        <CheckBox Content="Always On Top" Height="16" HorizontalAlignment="Left" Margin="18,139,0,0" Name="alwaysOnTopCheckBox" VerticalAlignment="Top" />
-        <CheckBox Content="Mouse Monitoring" Height="16" HorizontalAlignment="Left" Margin="138,139,0,0" Name="monitorMouseCheckBox" VerticalAlignment="Top" />
+        <CheckBox Content="Always On Top" Height="16" HorizontalAlignment="Left" Margin="18,139,0,0" Name="alwaysOnTopCheckBox" VerticalAlignment="Top" Checked="alwaysOnTopCheckBox_Checked" Unchecked="alwaysOnTopCheckBox_Unchecked" />
+        <CheckBox Content="Mouse Monitoring" Height="16" HorizontalAlignment="Left" Margin="138,139,0,0" Name="monitorMouseCheckBox" VerticalAlignment="Top" Checked="monitorMouseCheckBox_Checked" Unchecked="monitorMouseCheckBox_Unchecked" />
     </Grid>
 </Window>
